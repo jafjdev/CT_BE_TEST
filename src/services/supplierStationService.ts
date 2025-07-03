@@ -89,7 +89,6 @@ const fetchPricesFromExternalService = async (request: FetchPricesRequest): Prom
   const { shipID, departureDate, accommodation, pax, bonus } = request;
   const url = createApiUrl(SERVIVUELO_CONFIG.ENDPOINTS.PRICES);
 
-  console.log('VALIDAR PAX ACA', pax, bonus); //TODO: Remove this debug log
   const queryParams = buildPriceQueryParams(pax, bonus);
 
   const requestBody = {
