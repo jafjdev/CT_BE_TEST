@@ -1,0 +1,14 @@
+{
+  "timetables": [
+    {
+      "shipId": "123456",
+      "departureDate": "09:00",
+      "arrivalDate": "15:00"
+    },
+    {
+      "shipId": "123987",
+      "departureDate": "13:00",
+      "arrivalDate": "18:00"
+    }
+  ]
+}

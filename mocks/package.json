@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "dependencies": {
+    "xml2js": "^0.4.23",
+    "@mocks-server/main": "4.0.0"
+  },
+  "scripts": {
+    "start": "mocks-server"
+  }
+}

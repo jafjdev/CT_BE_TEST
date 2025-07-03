@@ -1,0 +1,24 @@
+POST http://localhost:3000 HTTP/1.1
+content-type: application/json
+Accept: */*
+
+{
+    "journeys": [
+        {
+            "from": "ATCH",
+            "to": "BCN",
+            "date": "2022-12-24"
+        },
+        {
+            "from": "BCN",
+            "to": "ATCH",
+            "date": "2022-12-26"
+        }
+    ],
+    "passenger": {
+        "adults": 2,
+        "childrens": 1,
+        "total": 3
+    },
+    "bonus": []
+}

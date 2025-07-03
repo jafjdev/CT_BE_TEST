@@ -1,0 +1,11 @@
+- id: "success"
+  routes:
+    - "timetables:success"
+    - "accommodations:success"
+    - "prices:success"
+
+- id: "fail"
+  routes:
+    - "timetables:fail"
+    - "accommodations:fail"
+    - "prices:fail"

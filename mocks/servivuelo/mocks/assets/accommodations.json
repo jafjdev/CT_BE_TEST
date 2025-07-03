@@ -1,0 +1,16 @@
+{
+  "accommodations": [
+    {
+      "type": "Estandar",
+      "available": "89"
+    },
+    {
+      "type": "Confort",
+      "available": "23"
+    },
+    {
+      "type": "Premium",
+      "available": "12"
+    }
+  ]
+}

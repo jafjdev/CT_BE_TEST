@@ -1,0 +1,29 @@
+POST http://localhost:3000 HTTP/1.1
+content-type: application/json
+Accept: */*
+
+{
+    "journeys": [
+        {
+            "from": "MAD",
+            "to": "BCN",
+            "date": "2022-12-24"
+        },
+        {
+            "from": "BCN",
+            "to": "VAL",
+            "date": "2022-12-26"
+        },
+        {
+            "from": "JSOR",
+            "to": "IBZ",
+            "date": "2023-01-07"
+        }
+    ],
+    "passenger": {
+        "adults": 1,
+        "childrens": 0,
+        "total": 1
+    },
+    "bonus": ["retired"]
+}

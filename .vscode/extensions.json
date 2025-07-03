@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "aaron-bond.better-comments",
+    "humao.rest-client",
+    "mikestead.dotenv",
+    "dbaeumer.vscode-eslint"
+  ],
+  "unwantedRecommendations": []
+}

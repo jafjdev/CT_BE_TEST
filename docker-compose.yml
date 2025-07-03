@@ -1,0 +1,61 @@
+version: "3"
+
+services:
+  ingress:
+    container_name: tws.loadbalancer
+    image: jwilder/nginx-proxy
+    ports:
+      - 80:80
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+      - CT
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - "mongoDB:/data/db"
+      - "dbConfig:/data/configdb"
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - CT
+    
+
+  redis:
+    container_name: redis
+    image: redis
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - "redisDB:/data"
+    networks:
+      - CT
+
+  servivuelo:
+    container_name: mock.servivuelo
+    image: tws.mocksserver
+    restart: always
+    build:
+      context: ./mocks
+    volumes:
+      - "./mocks/servivuelo:/usr/app/input"
+    environment:
+      - MOCKS_LOG=debug
+      - VIRTUAL_PORT=3100
+      - VIRTUAL_HOST=localhost
+      - VIRTUAL_PATH=/servivuelo/
+      - VIRTUAL_DEST=/
+    networks:
+      - CT
+
+volumes:
+  redisDB:
+  mongoDB:
+  dbConfig:
+networks:
+  CT:
