@@ -1,0 +1,27 @@
+POST /api/journeys/search HTTP/1.1
+Host: localhost:3000
+Content-Type: application/json
+Content-Length: 397
+
+{
+  "journeys": [
+    {
+      "from": "ATCH",
+      "to": "SANTS",
+      "date": "2022-12-24"
+    },
+    {
+      "from": "SANTS",
+      "to": "JSOR",
+      "date": "2022-12-24"
+    }
+  ],
+  "passenger": {
+    "adults": 1,
+    "children": 1,
+    "total": 2
+  },
+  "bonus": [
+    "retired"
+  ]
+}
