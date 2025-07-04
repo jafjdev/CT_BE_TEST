@@ -3,6 +3,8 @@
 
 Proyecto backend en Node.js que utiliza Mongoose para la gestión de la base de datos y la conexión con los modelos definidos, Axios para realizar peticiones HTTP al proveedor Servivuelos y Zod para la validación de los cuerpos de las peticiones recibidas. Se implementaron Morgan y Winston para un sistema de logging robusto y, aunque no eran estrictamente necesarios en este proyecto, se incluyeron Cors y Helmet para configurar un entorno más seguro y realista.
 
+NOTA: Se aplico una validacion adicional para que si existe algun bonus, como "retired" no apliquen para los children, solo funcionara para los adultos.
+
 ### Levantar el proyecto
 - Instalar librerías
 - `npm run docker:on` Levanta la base de datos y el proveedor (necesitas Docker)
