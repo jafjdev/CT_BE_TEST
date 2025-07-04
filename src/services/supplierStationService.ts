@@ -8,13 +8,10 @@ import {
   TimetableResponse,
 } from '@interfaces';
 import { PASSENGER_TYPES, SERVIVUELO_CONFIG } from '../constants/apiConstants';
-import { createApiUrl, makeHttpRequest } from '../utils/httpUtils';
-import { buildPriceQueryParams, extractServivueloStationCode } from '../utils/dataUtils';
-import { logJourneyOperation, logSupplierStationOperation } from '../utils/loggerUtils';
+import { createApiUrl, makeHttpRequest } from '@utils/httpUtils';
+import { buildPriceQueryParams, extractServivueloStationCode } from '@utils/dataUtils';
+import { logJourneyOperation, logSupplierStationOperation } from '@utils/loggerUtils';
 
-/**
- * Database operations for supplier stations
- */
 export const getSupplierStationByCode = async (
   supplierStationCode: string,
 ): Promise<string[] | null> => {
@@ -51,9 +48,6 @@ export const enrichStationsWithSupplierData = async (
   );
 };
 
-/**
- * External API calls to SERVIVUELO service
- */
 const fetchTimetablesFromExternalService = async (
   request: TimetableRequest,
   passenger: PassengerInfo,
@@ -103,9 +97,6 @@ const fetchPricesFromExternalService = async (request: FetchPricesRequest): Prom
   });
 };
 
-/**
- * Business logic for processing stations and trains
- */
 const validateStationCodes = (station: any): { from: string; to: string } | null => {
   const from = extractServivueloStationCode(station.destinationTree);
   const to = extractServivueloStationCode(station.arrivalTree);
@@ -183,19 +174,16 @@ const processAccommodationPricing = async (
       const childrenPriceRequest = createPriceRequest(
         shipID,
         departureDate,
-        'children',
+        PASSENGER_TYPES.CHILD,
         accommodation.type,
       );
       const rawChildrenPrice = await fetchPricesFromExternalService(childrenPriceRequest);
       childrenPrice = Number(rawChildrenPrice) || 0;
     }
 
-    // Calculate total price based on passenger counts
     const adultTotal = adultPrice * (passenger.adults || 0);
     const childrenTotal = childrenPrice * (passenger.children || 0);
-    const total = adultTotal + childrenTotal;
-
-    // Ensure total is a valid number
+    const total = adultTotal + childrenTotal; // Ya viene en la respuesta de servivuelo, pero realizamos el calculo nuevamente, podriamos simplemente asignar el total que nos regresa la API
     const finalTotal = Number(total) || 0;
 
     return {
@@ -325,9 +313,6 @@ export const getAvailableTrainForAJourney = async (
   return results;
 };
 
-/**
- * Service interface for external consumption
- */
 export const supplierStationService = {
   getSupplierStationByCode,
   parseStationCodes: enrichStationsWithSupplierData,

@@ -8,22 +8,38 @@ import {
   findStationIndexById,
   hasError,
   isValidStationIndex,
-} from '../utils/dataUtils';
-import { logJourneyOperation } from '../utils/loggerUtils';
+} from '@utils/dataUtils';
+import { logJourneyOperation } from '@utils/loggerUtils';
 import logger from '@config/logger';
 
-const findStationsForSingleJourney = async (journey: ParametersSchema['journeys'][0]) => {
-  return JourneyDestinationTree.find({
-    destinationTree: journey.from,
-    arrivalTree: journey.to,
-  }).lean();
+const isStationCode = async (code: string): Promise<boolean> => {
+  const exists = await JourneyDestinationTree.exists({
+    $or: [{ destinationCode: code }, { arrivalCode: code }],
+  });
+
+  return Boolean(exists);
 };
 
+const buildJourneyQuery = async (
+  journey: ParametersSchema['journeys'][0],
+): Promise<Record<string, string>> => {
+  //VALIDAMOS SI ES UN CÓDIGO DE ESTACIÓN O CIUDAD PARA ARMAR LA QUERY
+  const fromIsStation = await isStationCode(journey.from);
+  const toIsStation = await isStationCode(journey.to);
+
+  const query: Record<string, string> = {}; // SET DE DATOS PARA REALIZAR LA CONSULTA AL SERVIDOR
+
+  query[fromIsStation ? 'destinationCode' : 'destinationTree'] = journey.from;
+  query[toIsStation ? 'arrivalCode' : 'arrivalTree'] = journey.to;
+
+  return query;
+};
 export const getStationsForJourneys = async (journeys: ParametersSchema['journeys']) => {
   const results: GetStationsForJourneysResponse[] = [];
 
   for (const journey of journeys) {
-    const stationsForJourney = await findStationsForSingleJourney(journey);
+    const query = await buildJourneyQuery(journey);
+    const stationsForJourney = await JourneyDestinationTree.find(query).lean();
 
     results.push({
       journey,
